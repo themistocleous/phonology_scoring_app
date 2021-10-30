@@ -53,4 +53,4 @@ Please do not hesitate to contact me if you get into problems running the code, 
 
 # Cite
 
-**Themistocleous, Charalambos** (2021). A Tool for Automatic Scoring of Phonological distance. 
+**Themistocleous, Charalambos** (2021). A Tool for Automatic Scoring of Phonological distance. https://github.com/themistocleous/phonology_scoring_app.
