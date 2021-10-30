@@ -14,7 +14,7 @@ The required packages pandas, scipy, and numpy, will be installed automatically.
 
 ## Data Preparation for analysis
 
-1. You will need a datafile in csv format with three columns titled: **target**, **response**. If you have only words, you will still need the column **type** with labels *word*.
+1. You will need a datafile in csv format with three columns titled: **target**, **response**. 
 
 
 | target | response
@@ -35,7 +35,7 @@ Above I assume that your data file is titled data.csv and the output file is cal
 
 ## Using the code in other languages
 
-You can use the same code to spell check spelling in langauges other than American English, however you will need to modify, line 10 and change the language "en-us" to your own language (shown in column Language in the following table). For example if you want to score words in German you will need to modify
+You can use the same code in languages other than American English, you will need to modify, and change the language "en-us" to your own language (shown in column Language in the following table). For example if you want to score words in German you will need to modify
 
 p = subprocess.run(["espeak", "-q", "--ipa", "-v", "en-us"]
 
