@@ -34,10 +34,6 @@ def levenshtein(source, target):
     return float(distance) / max(len(source), len(target))
 
 
-def rdlevenshtein(row):
-    return levenshtein(str(row['target']), str(row['response']))
-
-
 def replacest(text):
     text = text.strip()
     chars = " ˌːˈ\n"
@@ -49,9 +45,9 @@ def replacest(text):
 
 def rdlevenshteinphonetics(row):
     t = phonetic(str(row['target']))
-    t1 = replacest(t)
+    t1 = replacest(t.strip())
     r = phonetic(str(row['response']))
-    r1 = replacest(r)
+    r1 = replacest(r.strip())
     return levenshtein(t1, r1)
 
 
@@ -60,14 +56,12 @@ def phonemicdistance(FILE):
     DF = pd.read_csv(FILE)
     DF['target'] = DF.target.str.lower()
     DF['response'] = DF.response.str.lower()
-    DF['target'] = DF['target'].str.replace(" ", "")
-    DF['response'] = DF['response'].str.replace(" ", "")
     DF['target'] = DF['target'].str.strip()
     DF['response'] = DF['response'].str.strip()
     EMPTY = DF[DF.response.isna()]
     DF = DF[DF.response.notnull()]
     if DF.empty == False:
-        DF['phonological_score'] = DF.apply(rdlevenshtein, axis=1)
+        DF['phonological_score'] = DF.apply(rdlevenshteinphonetics, axis=1)
     EMPTY['phonological_score'] = "NA"
     newdf = pd.concat([DF, EMPTY], axis=0)
     return newdf
