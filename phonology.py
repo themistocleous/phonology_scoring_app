@@ -1,3 +1,12 @@
+'''
+Author: Charalambos Themistocleous
+Date: 2022
+Basic Function: python phonology.py -i <inputfile> -o <outputfile>
+The input output words are converted into IPA, subsequently they are 
+Output: it provides two columns one with the phonological distance on the target and response
+'''
+
+
 import os
 import re
 import math
@@ -10,6 +19,14 @@ from scipy import interp
 from collections import Counter
 from toipa import phonetic
 import warnings
+import nltk
+from nltk.stem.snowball import SnowballStemmer
+lemma = nltk.wordnet.WordNetLemmatizer()
+  
+#the stemmer requires a language parameter
+snow_stemmer = SnowballStemmer(language='english')
+
+
 
 # To ignore code warnings at the output. Deactivate this if you modify the code.
 warnings.filterwarnings("ignore")
@@ -50,6 +67,19 @@ def rdlevenshteinphonetics(row):
     r1 = replacest(r.strip())
     return levenshtein(t1, r1)
 
+def rdlevenshteinphonetics_lemma(row):
+    #w = snow_stemmer.stem(str(row['target']))
+    w = lemma.lemmatize(str(row['target']))
+    print(w)
+    t = phonetic(w)
+    t1 = replacest(t.strip())
+    #w2 = snow_stemmer.stem(str(row['response']))
+    w2 = lemma.lemmatize(str(row['response']))
+    print(w2)
+    r = phonetic(w2)
+    r1 = replacest(r.strip())
+    return levenshtein(t1, r1)
+
 
 def phonemicdistance(FILE):
     """Calculate phonemic distance"""
@@ -62,9 +92,12 @@ def phonemicdistance(FILE):
     DF = DF[DF.response.notnull()]
     if DF.empty == False:
         DF['phonological_score'] = DF.apply(rdlevenshteinphonetics, axis=1)
+        DF['phonological_score_lemma'] = DF.apply(rdlevenshteinphonetics_lemma, axis=1)
     EMPTY['phonological_score'] = "NA"
+    EMPTY['phonological_score_stems'] = "NA"
     newdf = pd.concat([DF, EMPTY], axis=0)
     return newdf
+
 
 
 def main(argv):
@@ -86,7 +119,6 @@ def main(argv):
             outputfile = arg
             out.to_csv(outputfile)
             print("Phonology run without errors. (Remember a phonological distance that is equal to 0 means that the target and the response are the same whereas if it is 1 means that the two words are phonemically dissimilar).")
-
 
 if __name__ == "__main__":
     main(sys.argv[1:])

@@ -2,6 +2,22 @@
 
 The evaluation of phonemic performance in aphasia reveals deficits in spoken language and can facilitate the design of targeted treatments. Nevertheless, manual scoring of phonological performance is time-consuming, laborious, and error prone. Here we provide a code that scores phonological errors based on the normalized Damerau–Levenshtein distance, for both words and non words (see below on how to modify it for languages other than English).
 
+# Updates 
+02/27/2022
+
+The scoring algorithm will now provide two columns:
+- phonological_score: this provides phonological distance between the target and the response (the standard output).
+- phonological_score_lemma: this provides the phonological distance between the lemmas. 
+
+# Notes
+The alogirithm deals at the moment with one word responses; if the response is a multiword response the phonological distance will include all words of the response in the calculation. You might not want this. 
+
+ # Contact:
+ Please do not hesitate to contact me, if you need assistance and I will do my best to respond.  
+ 
+ email: themistocleous@gmail.com
+ 
+
 
 # Using the code
 
